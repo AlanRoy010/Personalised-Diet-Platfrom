@@ -1,0 +1,65 @@
+<div class="container" style="margin-top: 70px; max-width: 1200px;">
+
+  <!-- Header -->
+  <div class="row mb-4">
+    <div class="col">
+      <h2 class="mb-1">Users</h2>
+      <p class="text-muted">Browse all platform users.</p>
+    </div>
+  </div>
+
+  <!-- Search -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <input
+        class="form-control"
+        placeholder="Search by name, username, email..."
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="onSearchChange()"
+      />
+    </div>
+  </div>
+
+  <!-- Grid -->
+  <div class="row g-4">
+    <div class="col-lg-4" *ngFor="let u of users">
+      <div class="card user-card text-white bg-primary shadow-sm"
+      [routerLink]="['/admin/users', u._id]">
+
+        <div class="card-header">
+          <strong>{{ u.name }}</strong>
+        </div>
+
+        <div class="card-body">
+          <p><strong>Username:</strong> {{ u.username }}</p>
+          <p><strong>Email:</strong> {{ u.email || 'N/A' }}</p>
+        </div>
+
+        <div class="card-footer bg-dark bg-opacity-25 text-end">
+          {{ u.admin ? 'Admin' : 'User' }}
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="row mt-4 align-items-center" *ngIf="total > 0">
+    <div class="col-4">
+      <button class="btn btn-primary w-100" (click)="previousPage()" [disabled]="page <= 1">
+        ← Previous
+      </button>
+    </div>
+
+    <div class="col-4 text-center">
+      <strong>Page {{ page }} / {{ totalPages }}</strong>
+    </div>
+
+    <div class="col-4 text-end">
+      <button class="btn btn-primary w-100" (click)="nextPage()" [disabled]="page >= totalPages">
+        Next →
+      </button>
+    </div>
+  </div>
+
+</div>

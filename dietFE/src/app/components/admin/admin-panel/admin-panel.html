@@ -1,0 +1,80 @@
+<div class="container admin-container">
+
+  <!-- Header -->
+  <div class="row mb-4">
+    <div class="col">
+      <h2 class="mb-1">Admin Dashboard</h2>
+      <p class="text-muted mb-0">
+        Manage users and clients from a single panel.
+      </p>
+    </div>
+  </div>
+
+  <!-- Tab buttons -->
+  <div class="row mb-4">
+    <div class="col">
+      <div class="btn-group admin-tabs" role="group" aria-label="Admin sections">
+        <button
+          type="button"
+          class="btn"
+          [ngClass]="{ 'btn-primary': activeTab === 'users', 'btn-outline-primary': activeTab !== 'users' }"
+          (click)="setTab('users')"
+        >
+          Users
+        </button>
+        <button
+          type="button"
+          class="btn"
+          [ngClass]="{ 'btn-primary': activeTab === 'clients', 'btn-outline-primary': activeTab !== 'clients' }"
+          (click)="setTab('clients')"
+        >
+          Clients
+        </button>
+        <button
+          type="button"
+          class="btn"
+          [ngClass]="{ 'btn-primary': activeTab === 'grouped', 'btn-outline-primary': activeTab !== 'grouped' }"
+          (click)="setTab('grouped')"
+        >
+          Grouped Clients
+        </button>
+        <button
+          type="button"
+          class="btn"
+          [ngClass]="{ 'btn-primary': activeTab === 'nearby', 'btn-outline-primary': activeTab !== 'nearby' }"
+          (click)="setTab('nearby')"
+        >
+          Nearby Clients
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sections -->
+  <div class="row">
+    <div class="col-12">
+
+      <!-- USERS -->
+      <section *ngIf="activeTab === 'users'" class="mb-4">
+        <app-admin-users-list></app-admin-users-list>
+      </section>
+
+      <!-- CLIENTS -->
+      <section *ngIf="activeTab === 'clients'" class="mb-4">
+        <app-clients></app-clients>
+      </section>
+
+      <!-- GROUPED CLIENTS -->
+      <section *ngIf="activeTab === 'grouped'" class="mb-4">
+        <app-admin-grouped-clients></app-admin-grouped-clients>
+      </section>
+
+      <!-- NEARBY CLIENTS -->
+      <section *ngIf="activeTab === 'nearby'" class="mb-4">
+        <app-admin-nearby-clients></app-admin-nearby-clients>
+      </section>
+
+    </div>
+  </div>
+
+</div>

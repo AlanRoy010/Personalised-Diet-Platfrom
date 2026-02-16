@@ -1,0 +1,22 @@
+.about-section {
+  background: #f8fdf8;
+  min-height: 70vh;
+}
+
+.about-card {
+  background: #ffffff;
+  border-radius: 1rem;
+}
+
+.about-icon {
+  font-size: 2.4rem;
+}
+
+.tag {
+  background: #e8f5e9;
+  color: #198754;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}

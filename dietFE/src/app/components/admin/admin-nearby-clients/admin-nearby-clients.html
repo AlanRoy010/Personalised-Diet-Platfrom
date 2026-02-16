@@ -1,0 +1,70 @@
+<div class="nearby-container">
+  <div class="header-row">
+    <h2>Nearby Clients</h2>
+
+    <button class="refresh-btn" (click)="refreshNearbyClients()" [disabled]="isLoading">
+      {{ isLoading ? 'Loading...' : 'Refresh Nearby Clients' }}
+    </button>
+  </div>
+
+  <p class="hint-text">
+    System picks a random client and shows up to 10 other clients near them
+    (based on stored coordinates).
+  </p>
+
+  <div *ngIf="errorMessage" class="alert alert-error">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Random reference client -->
+  <div *ngIf="randomClient" class="random-client-card">
+    <h3>Reference Client</h3>
+    <p><strong>Name:</strong> {{ randomClient.name }}</p>
+    <p><strong>Town:</strong> {{ randomClient.town }}</p>
+
+    <a
+      class="link-btn"
+      [routerLink]="['/clients', randomClient.id]"
+      >View full profile</a
+    >
+  </div>
+
+  <!-- If loaded but no random client -->
+  <div *ngIf="!randomClient && !isLoading && !errorMessage" class="no-data">
+    No clients found in the database.
+  </div>
+
+  <!-- Nearby clients list -->
+  <div *ngIf="nearbyClients.length > 0" class="nearby-list">
+    <h3>Nearby Clients ({{ nearbyClients.length }})</h3>
+
+    <div class="cards-grid">
+      <div class="client-card" *ngFor="let client of nearbyClients">
+        <div class="card-main">
+          <h4 class="client-name">{{ client.name }}</h4>
+          <p class="client-town">
+            <strong>Town:</strong> {{ client.town || 'N/A' }}
+          </p>
+          <p class="client-distance">
+            <strong>Distance:</strong>
+            {{ distanceToKm(client.distance_m) | number : '1.2-2' }} km
+          </p>
+        </div>
+
+        <a
+          class="view-btn"
+          [routerLink]="['/clients', client._id]"
+        >
+          View Client
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div
+    *ngIf="!isLoading && !errorMessage && randomClient && nearbyClients.length === 0"
+    class="no-data"
+  >
+    No nearby clients found for this reference client.
+  </div>
+</div>

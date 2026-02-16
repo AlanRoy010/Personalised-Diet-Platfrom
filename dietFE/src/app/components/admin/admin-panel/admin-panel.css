@@ -1,0 +1,12 @@
+.admin-container {
+  margin-top: 70px;
+  max-width: 1200px;
+}
+
+.admin-tabs .btn {
+  min-width: 140px;
+}
+
+.admin-tabs .btn + .btn {
+  margin-left: 0.5rem;
+}

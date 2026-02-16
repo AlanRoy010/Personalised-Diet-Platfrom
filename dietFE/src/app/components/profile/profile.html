@@ -1,0 +1,154 @@
+<div class="container" style="margin-top: 80px;" *ngIf="user">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-body text-center">
+
+          <!-- Avatar -->
+          <div
+            class="mx-auto mb-3 d-flex align-items-center justify-content-center"
+            style="
+              width: 70px;
+              height: 70px;
+              border-radius: 50%;
+              background-color: #0d6efd;
+              color: #ffffff;
+              font-weight: 700;
+              font-size: 1.6rem;
+            "
+          >
+            {{ initial }}
+          </div>
+
+          <h4 class="mb-1">{{ user.name }}</h4>
+          <p class="text-muted mb-4">@{{ user.username }}</p>
+
+          <!-- VIEW MODE -->
+          <div class="text-start mt-3 px-4" *ngIf="!editMode">
+            <h6 class="text-muted">Account details</h6>
+            <p class="mb-1">
+              <strong>Full name:</strong> {{ user.name }}
+            </p>
+            <p class="mb-1">
+              <strong>Username:</strong> {{ user.username }}
+            </p>
+            <p class="mb-1">
+              <strong>Email:</strong> {{ user.email }}
+            </p>
+            <p class="mb-1" *ngIf="isAdminView">
+              <strong>Role:</strong> {{ user.admin ? 'Admin' : 'User' }}
+            </p>
+          </div>
+
+          <!-- EDIT MODE -->
+          <div class="text-start mt-3 px-4" *ngIf="editMode">
+            <h6 class="text-muted">Edit account</h6>
+
+            <div class="mb-2">
+              <label class="form-label small mb-0">Full name</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="editableUser.name"
+              />
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label small mb-0">Username</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="editableUser.username"
+              />
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label small mb-0">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                [(ngModel)]="editableUser.email"
+              />
+            </div>
+
+            <!-- Admin checkbox only visible when admin is editing -->
+            <div class="form-check mb-2" *ngIf="isAdminView">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="adminCheck"
+                [(ngModel)]="editableUser.admin"
+              />
+              <label class="form-check-label small" for="adminCheck">
+                Admin user
+              </label>
+            </div>
+          </div>
+
+          <!-- BUTTONS -->
+          <div class="mt-4 d-flex justify-content-center gap-2 flex-wrap">
+
+            <!-- Edit / Save / Cancel common -->
+            <button
+              class="btn btn-outline-primary"
+              type="button"
+              *ngIf="!editMode"
+              (click)="startEdit()"
+            >
+              Edit
+            </button>
+
+            <button
+              class="btn btn-success"
+              type="button"
+              *ngIf="editMode"
+              (click)="saveEdit()"
+            >
+              Save
+            </button>
+
+            <button
+              class="btn btn-secondary"
+              type="button"
+              *ngIf="editMode"
+              (click)="cancelEdit()"
+            >
+              Cancel
+            </button>
+
+            <!-- Delete for both self and admin -->
+            <button
+              class="btn btn-outline-danger"
+              type="button"
+              (click)="onDeleteUser()"
+            >
+              Delete
+            </button>
+
+            <!-- Logout only in self view -->
+            <button
+              class="btn btn-outline-danger"
+              type="button"
+              *ngIf="!isAdminView"
+              (click)="onLogout()"
+            >
+              Logout
+            </button>
+
+            <!-- Back to admin only in admin view -->
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              *ngIf="isAdminView"
+              (click)="goBackToAdmin()"
+            >
+              Back to Admin
+            </button>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

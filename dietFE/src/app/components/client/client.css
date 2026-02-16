@@ -1,0 +1,98 @@
+/* ===== Client Profile – Layout ===== */
+
+/* Container spacing */
+.profile-container {
+  max-width: 1200px;
+}
+
+/* Header */
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 1.25rem;
+}
+
+.profile-name {
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: #198754; /* green to match diet theme */
+}
+
+.profile-location {
+  color: #6c757d;
+  font-size: 1.05rem;
+}
+
+.profile-tags {
+  text-align: right;
+}
+
+/* ===== Tags / Chips ===== */
+
+.tag {
+  background: #e8f5e9;              /* soft green background */
+  padding: 6px 12px;
+  border-radius: 20px;
+  margin-left: 8px;
+  font-size: 0.9rem;
+  display: inline-block;
+  cursor: default;
+  color: #198754;
+  font-weight: 500;
+
+  /* Smooth animation */
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease,
+    color 0.25s ease;
+}
+
+/* Hover animation */
+.tag:hover {
+  transform: translateY(-3px);
+  background: #d1fae5; /* slightly brighter green */
+  color: #146c43;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
+}
+
+/* ===== Cards ===== */
+
+.modern-card {
+  border-radius: 14px;
+  border: none;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+/* Header style – now white with green title (the text itself comes from HTML) */
+.card-header-modern {
+  background: #ffffff;
+  color: #198754;
+  font-weight: 600;
+  border-top-left-radius: 14px !important;
+  border-top-right-radius: 14px !important;
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* Hover animation */
+.hover-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.14);
+}
+
+/* Section titles (e.g. About X) */
+.section-title {
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: #0d6efd; /* keep one accent blue like on home page */
+}
+
+/* Optional: make map card a bit softer */
+.google-map,
+google-map {
+  border-radius: 12px;
+  overflow: hidden;
+}

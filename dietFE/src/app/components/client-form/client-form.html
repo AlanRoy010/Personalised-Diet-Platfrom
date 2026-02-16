@@ -1,0 +1,198 @@
+<div class="container" style="max-width: 900px; margin-top: 40px;">
+  <h2 class="mb-3">Create Client Profile</h2>
+
+  <!-- Step indicator (optional) -->
+  <p class="text-muted mb-4">
+    Step {{ currentStep }} of 4
+  </p>
+
+  <form (ngSubmit)="onSubmit()">
+    <!-- STEP 1: PERSONAL INFO -->
+    <div *ngIf="currentStep === 1">
+      <h4>Personal Information</h4>
+
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label>Age</label>
+          <input type="number" class="form-control" [(ngModel)]="Age" name="age">
+        </div>
+        <div class="col-md-3">
+          <label>Gender</label>
+          <select class="form-control" [(ngModel)]="Gender" name="gender">
+            <option value="">Select</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label>Height (cm)</label>
+          <input type="number" class="form-control" [(ngModel)]="height_cm" name="height_cm">
+        </div>
+        <div class="col-md-3">
+          <label>Weight (kg)</label>
+          <input type="number" class="form-control" [(ngModel)]="weight_kg" name="weight_kg">
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label>Phone</label>
+          <input class="form-control" [(ngModel)]="phone" name="phone">
+        </div>
+        <div class="col-md-6">
+          <label>Town (select from list)</label>
+          <select class="form-control" [(ngModel)]="town" name="town">
+            <option value="">Select town</option>
+            <option *ngFor="let t of towns" [value]="t">
+              {{ t }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 2: HEALTH -->
+    <div *ngIf="currentStep === 2">
+      <h4>Health</h4>
+
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label>Systolic BP</label>
+          <input type="number" class="form-control" [(ngModel)]="systolic" name="systolic">
+        </div>
+        <div class="col-md-3">
+          <label>Diastolic BP</label>
+          <input type="number" class="form-control" [(ngModel)]="diastolic" name="diastolic">
+        </div>
+        <div class="col-md-3">
+          <label>Blood Sugar</label>
+          <input type="number" class="form-control" [(ngModel)]="blood_sugar" name="blood_sugar">
+        </div>
+        <div class="col-md-3">
+          <label>Cholesterol</label>
+          <input type="number" class="form-control" [(ngModel)]="cholesterol" name="cholesterol">
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label>Allergies</label>
+          <input class="form-control" [(ngModel)]="allergies" name="allergies">
+        </div>
+        <div class="col-md-4">
+          <label>Chronic Disease</label>
+          <input class="form-control" [(ngModel)]="chronic_disease" name="chronic_disease">
+        </div>
+        <div class="col-md-4">
+          <label>Genetic Risk Factor</label>
+          <input class="form-control" [(ngModel)]="genetic_risk_factor" name="genetic_risk_factor">
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3: LIFESTYLE -->
+    <div *ngIf="currentStep === 3">
+      <h4>Lifestyle</h4>
+
+      <div class="row mb-3">
+        <div class="col-md-4">
+          <label>Daily Steps</label>
+          <input type="number" class="form-control" [(ngModel)]="daily_steps" name="daily_steps">
+        </div>
+        <div class="col-md-4">
+          <label>Sleep Hours</label>
+          <input type="number" class="form-control" [(ngModel)]="sleep_hours" name="sleep_hours">
+        </div>
+        <div class="col-md-4">
+          <label>Exercise Frequency (per week)</label>
+          <input type="number" class="form-control" [(ngModel)]="exercise_frequency" name="exercise_frequency">
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label>Smoking</label>
+          <select class="form-control" [(ngModel)]="smoking" name="smoking">
+            <option value="">Select</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label>Alcohol Consumption</label>
+          <select class="form-control" [(ngModel)]="alcohol" name="alcohol">
+            <option value="">Select</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4: DIET + SUBMIT -->
+    <div *ngIf="currentStep === 4">
+      <h4>Diet</h4>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <label>Dietary Habits</label>
+          <input class="form-control" [(ngModel)]="dietary_habits" name="dietary_habits">
+        </div>
+        <div class="col-md-6">
+          <label>Preferred Cuisine</label>
+          <input class="form-control" [(ngModel)]="preferred_cuisine" name="preferred_cuisine">
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label>Calories</label>
+          <input type="number" class="form-control" [(ngModel)]="caloric_intake" name="caloric_intake">
+        </div>
+        <div class="col-md-3">
+          <label>Protein</label>
+          <input type="number" class="form-control" [(ngModel)]="protein_intake" name="protein_intake">
+        </div>
+        <div class="col-md-3">
+          <label>Carbohydrates</label>
+          <input type="number" class="form-control" [(ngModel)]="carb_intake" name="carb_intake">
+        </div>
+        <div class="col-md-3">
+          <label>Fat</label>
+          <input type="number" class="form-control" [(ngModel)]="fat_intake" name="fat_intake">
+        </div>
+      </div>
+    </div>
+
+    <!-- NAVIGATION BUTTONS -->
+    <div class="mt-4 d-flex justify-content-between">
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="goToPreviousStep()"
+        [disabled]="currentStep === 1">
+        Back
+      </button>
+
+      <!-- If not last step: show Next -->
+      <button
+        *ngIf="currentStep < 4"
+        type="button"
+        class="btn btn-primary"
+        (click)="goToNextStep()">
+        Next
+      </button>
+
+      <!-- On last step: show Submit -->
+      <button
+        *ngIf="currentStep === 4"
+        type="submit"
+        class="btn btn-success"
+        [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Saving...' : 'Save My Client Profile' }}
+      </button>
+    </div>
+
+  </form>
+</div>

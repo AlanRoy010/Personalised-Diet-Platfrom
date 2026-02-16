@@ -1,0 +1,47 @@
+<div class="login-box p-4 shadow rounded" style="max-width: 380px; margin: 80px auto; background: #ffffff;">
+  
+    <h2 class="text-center mb-4">Login</h2>
+
+    <!-- Username -->
+    <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input type="text" class="form-control" [(ngModel)]="username">
+    </div>
+
+  <!-- Password -->
+    <div class="mb-4">
+    <label class="form-label">Password</label>
+
+    <div class="password-wrapper">
+        <input
+        [type]="showPassword ? 'text' : 'password'"
+        class="form-control"
+        [(ngModel)]="password"
+        />
+
+        <span class="toggle-eye" (click)="showPassword = !showPassword">
+        <!-- If you have Font Awesome -->
+        <i *ngIf="showPassword" class="fa fa-eye-slash"></i>
+        <i *ngIf="!showPassword" class="fa fa-eye"></i>
+
+        
+        {{ showPassword ? '🙈' : '👁️' }}
+       
+        </span>
+    </div>
+    </div>
+
+
+    <!-- Buttons -->
+    <div class="text-center">
+        <button type="button" class="btn btn-primary w-50 me-2" (click)="OnLogin()">Login</button>
+        
+
+    <!-- Register link -->
+    <p class="text-center small mt-3">
+        New user?
+        <a [routerLink]="['/register']">Create an account</a>
+    </p>
+
+    <p class="message mt-3 text-center">{{ message }}</p>
+    </div>

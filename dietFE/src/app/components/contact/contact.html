@@ -1,0 +1,91 @@
+<div class="contact-page container" style="margin-top: 80px; margin-bottom: 40px; max-width: 800px;">
+  <div class="row justify-content-center">
+    <div class="col-12">
+
+      <div class="card shadow-sm contact-card">
+        <div class="card-body p-4 p-md-5">
+
+          <h2 class="text-center mb-4">Contact Us</h2>
+          <p class="text-muted text-center mb-4">
+            If you have any questions about the system, clients, or your account, please send us a message.
+          </p>
+
+          <!-- Contact Form -->
+          <form (ngSubmit)="onSubmit()">
+            <div class="row">
+              <!-- Name -->
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="name"
+                  name="name"
+                  placeholder="Enter your name"
+                  required
+                >
+              </div>
+
+              <!-- Email -->
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  [(ngModel)]="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  required
+                >
+              </div>
+            </div>
+
+            <!-- Subject -->
+            <div class="mb-3">
+              <label class="form-label">Subject</label>
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="subject"
+                name="subject"
+                placeholder="What is this about?"
+              >
+            </div>
+
+            <!-- Message -->
+            <div class="mb-4">
+              <label class="form-label">Message</label>
+              <textarea
+                class="form-control"
+                rows="4"
+                [(ngModel)]="message"
+                name="message"
+                placeholder="Type your message here..."
+                required
+              ></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="text-center">
+              <button
+                type="submit"
+                class="btn btn-primary px-5"
+                [disabled]="isSubmitting"
+              >
+                {{ isSubmitting ? 'Sending...' : 'Send Message' }}
+              </button>
+            </div>
+          </form>
+
+          <!-- Optional contact info -->
+          <div class="mt-4 text-center text-muted small">
+            <p class="mb-1">You can also reach us at:</p>
+            <p class="mb-0"><strong>Email:</strong> support@healthprofiles.local</p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,394 @@
+<div class="container diet-container" style="margin-top: 70px; max-width: 1100px;">
+
+  <!-- HEADER / HERO -->
+  <div class="row mb-4">
+    <div class="col">
+      <div class="card shadow-sm border-0" style="background: linear-gradient(135deg, #f4fff6, #e8f5e9);">
+        <div class="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+          <div class="mb-2 mb-md-0">
+            <h3 class="mb-1 text-success fw-bold">Your Diet Plan</h3>
+            <p class="mb-0 small text-muted">
+              Personalised suggestions based on your calorie intake, blood pressure, blood sugar, sleep and activity.
+            </p>
+          </div>
+          <div class="text-md-end">
+            <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle me-1">
+              🥗 Personalised
+            </span>
+            <span class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle">
+              ⚡ Health-focused
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading / Error -->
+  <div *ngIf="loading" class="alert alert-info py-2">
+    Generating your diet plan...
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger py-2">
+    {{ error }}
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div *ngIf="plan && !loading">
+
+    <!-- SIMPLE SUMMARY CARD -->
+    <div class="card shadow-sm mb-4 border-0">
+      <div class="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+        <div>
+          <h4 class="card-title mb-1 text-success">
+            {{ plan.client_name || 'Your personalised diet plan' }}
+          </h4>
+          <p class="text-muted mb-0 small">
+            Below you can see highlighted areas from your profile (calories, sugar, sleep, etc.) with matching images and tips.
+          </p>
+        </div>
+        <div class="mt-3 mt-md-0">
+          <span
+            class="badge rounded-pill bg-success-subtle text-success border border-success-subtle me-1"
+            *ngIf="plan.flags && !plan.flags.calories && !plan.flags.blood_pressure && !plan.flags.blood_sugar && !plan.flags.sleep && !plan.flags.exercise"
+          >
+            ✅ All key values in a healthy range
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- IMAGE CARDS ROWS -->
+    <div class="row g-4 mb-4">
+
+      <!-- Calories high → show low-calorie plate image -->
+      <div class="col-md-4" *ngIf="plan.flags?.calories === 'high'">
+        <div class="info-card shadow-sm h-100 border-0 bg-light rounded-4 overflow-hidden">
+          <div class="position-relative">
+            <img
+              src="/diet/low-calorie-plate.jpg"
+              class="info-img"
+              alt="Low calorie balanced plate with plenty of vegetables"
+            />
+            <span class="badge bg-danger position-absolute top-0 start-0 m-2">
+              High calories
+            </span>
+          </div>
+          <div class="p-3">
+            <h6 class="fw-semibold mb-2 text-success">Lower-calorie meals</h6>
+            <p class="small mb-0 text-muted">
+              Focus on plates with lots of vegetables, lean protein and smaller portions of high-fat or sugary foods.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Calories low → show energy-dense but healthy foods -->
+      <div class="col-md-4" *ngIf="plan.flags?.calories === 'low'">
+        <div class="info-card shadow-sm h-100 border-0 bg-light rounded-4 overflow-hidden">
+          <div class="position-relative">
+            <img
+              src="/diet/higher-calorie-healthy.jpg"
+              class="info-img"
+              alt="Healthy higher-calorie foods such as nuts, avocado and whole grains"
+            />
+            <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2">
+              Low calories
+            </span>
+          </div>
+          <div class="p-3">
+            <h6 class="fw-semibold mb-2 text-success">Healthy extra energy</h6>
+            <p class="small mb-0 text-muted">
+              Add healthy energy sources like whole grains, nuts, seeds, avocado, yoghurt and lean proteins.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Protein low → show protein-rich foods -->
+      <div class="col-md-4" *ngIf="plan.flags?.protein === 'low'">
+        <div class="info-card shadow-sm h-100 border-0 bg-light rounded-4 overflow-hidden">
+          <div class="position-relative">
+            <img
+              src="/diet/protein-rich.jpg"
+              class="info-img"
+              alt="Protein rich foods such as eggs, fish, beans and yoghurt"
+            />
+            <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2">
+              Low protein
+            </span>
+          </div>
+          <div class="p-3">
+            <h6 class="fw-semibold mb-2 text-success">Protein-rich choices</h6>
+            <p class="small mb-0 text-muted">
+              Include more eggs, yoghurt, beans, lentils, fish or lean meat during the day.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Protein high → show balanced protein portions -->
+      <div class="col-md-4" *ngIf="plan.flags?.protein === 'high'">
+        <div class="info-card shadow-sm h-100 border-0 bg-light rounded-4 overflow-hidden">
+          <div class="position-relative">
+            <img
+              src="/diet/protein-portion.jpg"
+              class="info-img"
+              alt="Balanced portion of protein with vegetables and grains"
+            />
+            <span class="badge bg-danger position-absolute top-0 start-0 m-2">
+              High protein
+            </span>
+          </div>
+          <div class="p-3">
+            <h6 class="fw-semibold mb-2 text-success">Balanced portions</h6>
+            <p class="small mb-0 text-muted">
+              Use smaller protein portions and fill the rest of the plate with vegetables and whole grains.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fat high → show healthier fat options -->
+      <div class="col-md-4" *ngIf="plan.flags?.fat === 'high'">
+        <div class="info-card shadow-sm h-100 border-0 bg-light rounded-4 overflow-hidden">
+          <div class="position-relative">
+            <img
+              src="/diet/healthy-fats.jpg"
+              class="info-img"
+              alt="Healthy fats such as nuts, seeds, olive oil and avocado"
+            />
+            <span class="badge bg-danger position-absolute top-0 start-0 m-2">
+              High fat
+            </span>
+          </div>
+          <div class="p-3">
+            <h6 class="fw-semibold mb-2 text-success">Healthier fats</h6>
+            <p class="small mb-0 text-muted">
+              Choose small amounts of nuts, seeds, avocado and plant oils instead of deep-fried or creamy foods.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carbs high → show wholegrain swaps -->
+      <div class="col-md-4" *ngIf="plan.flags?.carbs === 'high'">
+        <div class="info-card shadow-sm h-100 border-0 bg-light rounded-4 overflow-hidden">
+          <div class="position-relative">
+            <img
+              src="/diet/wholegrain-carbs.jpg"
+              class="info-img"
+              alt="Wholegrain carbohydrate foods such as brown rice, oats and wholemeal bread"
+            />
+            <span class="badge bg-danger position-absolute top-0 start-0 m-2">
+              High carbs
+            </span>
+          </div>
+          <div class="p-3">
+            <h6 class="fw-semibold mb-2 text-success">Wholegrain swaps</h6>
+            <p class="small mb-0 text-muted">
+              Prefer brown rice, oats and wholemeal bread instead of white bread and sugary snacks.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Blood sugar high → show low-sugar choices -->
+      <div class="col-md-4" *ngIf="plan.flags?.blood_sugar === 'high'">
+        <div class="info-card shadow-sm h-100 border-0 bg-light rounded-4 overflow-hidden">
+          <div class="position-relative">
+            <img
+              src="/diet/low-sugar.jpg"
+              class="info-img"
+              alt="Low sugar food choices such as water, fruit and unsweetened yoghurt"
+            />
+            <span class="badge bg-danger position-absolute top-0 start-0 m-2">
+              High sugar
+            </span>
+          </div>
+          <div class="p-3">
+            <h6 class="fw-semibold mb-2 text-success">Lower sugar options</h6>
+            <p class="small mb-0 text-muted">
+              Swap sugary drinks and desserts for water, sugar-free drinks, whole fruits and unsweetened yoghurt.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Blood pressure high → show BP-friendly foods and less salt -->
+      <div class="col-md-4" *ngIf="plan.flags?.blood_pressure === 'high'">
+        <div class="info-card shadow-sm h-100 border-0 bg-light rounded-4 overflow-hidden">
+          <div class="position-relative">
+            <img
+              src="/diet/bp-friendly.jpg"
+              class="info-img"
+              alt="Blood pressure friendly foods such as vegetables, fruits and low-salt meals"
+            />
+            <span class="badge bg-danger position-absolute top-0 start-0 m-2">
+              High BP
+            </span>
+          </div>
+          <div class="p-3">
+            <h6 class="fw-semibold mb-2 text-success">Blood pressure friendly</h6>
+            <p class="small mb-0 text-muted">
+              Choose low-salt meals with plenty of vegetables and fruits, and avoid very salty processed foods.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sleep low → show sleep hygiene image -->
+      <div class="col-md-4" *ngIf="plan.flags?.sleep === 'low'">
+        <div class="info-card shadow-sm h-100 border-0 bg-light rounded-4 overflow-hidden">
+          <div class="position-relative">
+            <img
+              src="/diet/sleep-hygiene.jpg"
+              class="info-img"
+              alt="Bed and calm night scene representing good sleep habits"
+            />
+            <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2">
+              Low sleep
+            </span>
+          </div>
+          <div class="p-3">
+            <h6 class="fw-semibold mb-2 text-success">Sleep habits</h6>
+            <p class="small mb-0 text-muted">
+              Aim for 7–9 hours of sleep with a calm routine, less screen time and a dark, quiet room.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Exercise low → show simple activity image -->
+      <div class="col-md-4" *ngIf="plan.flags?.exercise === 'low'">
+        <div class="info-card shadow-sm h-100 border-0 bg-light rounded-4 overflow-hidden">
+          <div class="position-relative">
+            <img
+              src="/diet/active-lifestyle.jpg"
+              class="info-img"
+              alt="People walking or exercising"
+            />
+            <span class="badge bg-warning text-dark position-absolute top-0 start-0 m-2">
+              Low exercise
+            </span>
+          </div>
+          <div class="p-3">
+            <h6 class="fw-semibold mb-2 text-success">Move more, gently</h6>
+            <p class="small mb-0 text-muted">
+              Try to include walking or light exercise on most days to support your heart and weight.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- OPTIONAL: generic balanced plate if there are no flags at all -->
+      <div
+        class="col-md-4"
+        *ngIf="!plan.flags || (!plan.flags.calories && !plan.flags.protein && !plan.flags.fat && !plan.flags.carbs && !plan.flags.blood_sugar && !plan.flags.blood_pressure && !plan.flags.sleep && !plan.flags.exercise)"
+      >
+        <div class="info-card shadow-sm h-100 border-0 bg-light rounded-4 overflow-hidden">
+          <div class="position-relative">
+            <img
+              src="/diet/balanced-plate-generic.jpg"
+              class="info-img"
+              alt="Generic balanced diet plate"
+            />
+            <span class="badge bg-success position-absolute top-0 start-0 m-2">
+              Balanced
+            </span>
+          </div>
+          <div class="p-3">
+            <h6 class="fw-semibold mb-2 text-success">Balanced plate example</h6>
+            <p class="small mb-0 text-muted">
+              Your values are in a normal range or there is limited data. Here is a general example of a balanced plate.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TEXT RECOMMENDATIONS SECTION -->
+    <div class="card shadow-sm mb-4 border-0">
+      <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+          <h5 class="mb-0 text-success">Recommendations for you</h5>
+
+          <!-- Status chips -->
+          <div class="d-flex flex-wrap gap-2 small" *ngIf="plan.flags">
+            <span
+              class="status-pill"
+              *ngIf="plan.flags.calories"
+              [ngClass]="{
+                'status-high': plan.flags.calories === 'high',
+                'status-ok': plan.flags.calories === 'ok',
+                'status-low': plan.flags.calories === 'low'
+              }"
+            >
+              Calories: {{ plan.flags.calories }}
+            </span>
+
+            <span
+              class="status-pill"
+              *ngIf="plan.flags.blood_sugar"
+              [ngClass]="{
+                'status-high': plan.flags.blood_sugar === 'high',
+                'status-ok': plan.flags.blood_sugar === 'ok'
+              }"
+            >
+              Blood sugar: {{ plan.flags.blood_sugar }}
+            </span>
+
+            <span
+              class="status-pill"
+              *ngIf="plan.flags.blood_pressure"
+              [ngClass]="{
+                'status-high': plan.flags.blood_pressure === 'high',
+                'status-ok': plan.flags.blood_pressure === 'ok'
+              }"
+            >
+              Blood pressure: {{ plan.flags.blood_pressure }}
+            </span>
+
+            <span
+              class="status-pill"
+              *ngIf="plan.flags.sleep"
+              [ngClass]="{
+                'status-high': plan.flags.sleep === 'high',
+                'status-ok': plan.flags.sleep === 'ok',
+                'status-low': plan.flags.sleep === 'low'
+              }"
+            >
+              Sleep: {{ plan.flags.sleep }}
+            </span>
+
+            <span
+              class="status-pill"
+              *ngIf="plan.flags.exercise"
+              [ngClass]="{
+                'status-high': plan.flags.exercise === 'high',
+                'status-ok': plan.flags.exercise === 'ok',
+                'status-low': plan.flags.exercise === 'low'
+              }"
+            >
+              Exercise: {{ plan.flags.exercise }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Recommendations list -->
+        <ul class="list-group list-group-flush">
+          <li
+            *ngFor="let rec of plan.recommendations"
+            class="list-group-item recommendation-item d-flex"
+          >
+            <span class="me-2 text-success">•</span>
+            <span>{{ rec }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>

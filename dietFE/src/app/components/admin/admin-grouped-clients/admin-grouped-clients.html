@@ -1,0 +1,109 @@
+<div class="container" style="margin-top: 20px; max-width: 1200px;">
+
+  <!-- Header + Group selector -->
+  <div class="row mb-4">
+    <div class="col-md-8">
+      <h3 class="mb-1">Grouped Clients</h3>
+      <p class="text-muted mb-0">
+        View clients grouped by a selected field.
+      </p>
+    </div>
+
+    <div class="col-md-4 d-flex align-items-center justify-content-md-end mt-3 mt-md-0">
+      <label class="me-2 fw-semibold mb-0">Group by:</label>
+      <select
+        class="form-select"
+        [value]="selectedGroupBy"
+        (change)="onGroupChange($event)"
+      >
+        <option *ngFor="let opt of groupOptions" [value]="opt.value">
+          {{ opt.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="text-center my-4">
+    Loading grouped clients...
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="!loading && errorMsg" class="alert alert-danger">
+    {{ errorMsg }}
+  </div>
+
+  <!-- No Results -->
+  <div *ngIf="!loading && !errorMsg && groups.length === 0" class="alert alert-info">
+    No clients found for this grouping.
+  </div>
+
+  <!-- Groups -->
+  <div *ngIf="!loading && !errorMsg && groups.length > 0">
+
+    <!-- ❗ IMPORTANT: use pagedGroups, not groups -->
+    <div
+      class="card group-card shadow-sm mb-3"
+      *ngFor="let group of pagedGroups; trackBy: trackGroup"
+    >
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">
+          Group: {{ group.key || 'Unknown' }}
+        </span>
+        <span class="badge bg-primary">
+          {{ group.clients.length }} client{{ group.clients.length === 1 ? '' : 's' }}
+        </span>
+      </div>
+
+      <div class="card-body p-0">
+        <ul class="list-group list-group-flush">
+          <li
+            class="list-group-item d-flex justify-content-between align-items-center client-row"
+            *ngFor="let c of group.clients; trackBy: trackClient"
+          >
+            <div>
+              <div class="fw-semibold">{{ c.name }}</div>
+              <div class="text-muted small">@{{ c.username }}</div>
+            </div>
+
+            <a
+              class="btn btn-sm btn-outline-primary"
+              [routerLink]="['/clients', c.id]"
+            >
+              View
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Pagination (same style as clients page) -->
+    <div class="row mt-4 align-items-center">
+      <div class="col-4">
+        <button
+          class="btn btn-primary w-100"
+          (click)="previousPage()"
+          [disabled]="page === 1"
+        >
+          ← Previous
+        </button>
+      </div>
+
+      <div class="col-4 text-center">
+        <strong>Page {{ page }} / {{ totalPages }}</strong>
+      </div>
+
+      <div class="col-4 text-end">
+        <button
+          class="btn btn-primary w-100"
+          (click)="nextPage()"
+          [disabled]="page === totalPages"
+        >
+          Next →
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>

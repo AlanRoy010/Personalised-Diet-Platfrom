@@ -1,0 +1,225 @@
+<!-- MAIN CONTENT WRAPPER -->
+<main class="mt-4">
+
+  <!-- HERO SECTION WITH CAROUSEL -->
+  <section class="py-4 py-lg-5 bg-light">
+    <div class="container">
+      <div class="row align-items-center g-4">
+
+        <!-- Text / CTA -->
+        <div class="col-lg-6">
+          <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle mb-2">
+            Personalised nutrition made simple
+          </span>
+          <h1 class="mb-3">
+            Build a diet plan that fits <span class="text-success">your life</span>.
+          </h1>
+          <p class="lead text-muted mb-4">
+            Track your health details, generate a personalised diet plan, and get easy tips to improve your
+            calories, blood sugar, blood pressure, sleep and activity — all in one place.
+          </p>
+
+          <div class="d-flex flex-wrap gap-3 hero-button-area">
+            <button
+              type="button"
+              class="btn btn-success rounded-pill px-4"
+              (click)="onStartDietPlan()"
+            >
+              Start My Diet Plan
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-success rounded-pill px-4"
+              (click)="onUpdateHealthProfile()"
+            >
+              Update My Health Profile
+            </button>
+          </div>
+
+          <p class="small text-muted mt-3 mb-0">
+            Log in, complete your client profile, and we’ll generate suggestions based on your data.
+          </p>
+        </div>
+
+        <!-- Carousel -->
+        <div class="col-lg-6">
+          <div class="coverflow-wrapper w-100">
+            <div class="coverflow-carousel card border-0 shadow-sm">
+
+              <div class="coverflow-track">
+                <div
+                  class="coverflow-item"
+                  *ngFor="let img of images; let i = index"
+                  [ngClass]="{
+                    'active': i === currentIndex,
+                    'prev': i === getPrevIndex(),
+                    'next': i === getNextIndex()
+                  }"
+                >
+                  <img [src]="img" alt="Healthy food image">
+                </div>
+              </div>
+
+              <!-- Controls -->
+              <button class="coverflow-control prev" (click)="prev()">
+                ‹
+              </button>
+              <button class="coverflow-control next" (click)="next()">
+                ›
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="py-5 bg-white">
+    <div class="container">
+      <div class="row justify-content-center mb-4">
+        <div class="col-lg-8 text-center">
+          <h2 class="mb-3">How the Personalized Diet Platform works</h2>
+          <p class="text-muted mb-0">
+            We use the information you provide about your body, lifestyle and health to suggest small, realistic changes
+            you can follow every day.
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+              <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                   style="width: 40px; height: 40px; background: #e8f5e9; color: #198754;">
+                1
+              </div>
+              <h5 class="card-title">Create your profile</h5>
+              <p class="card-text text-muted">
+                Add your age, height, weight, blood pressure, blood sugar, sleep hours and exercise habits
+                in the <strong>Client Info</strong> section.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+              <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                   style="width: 40px; height: 40px; background: #e3f2fd; color: #0d6efd;">
+                2
+              </div>
+              <h5 class="card-title">Generate your diet plan</h5>
+              <p class="card-text text-muted">
+                Use the <strong>Diet Plan</strong> page to see suggestions for calories, sugar, fats,
+                and lifestyle based on the data you entered.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+              <div class="rounded-circle d-inline-flex align-items-center justify-content-center mb-3"
+                   style="width: 40px; height: 40px; background: #fff3cd; color: #b58100;">
+                3
+              </div>
+              <h5 class="card-title">Follow small changes</h5>
+              <p class="card-text text-muted">
+                Make small daily changes — like swapping sugary drinks, improving your plate balance, or
+                adding short walks — and regenerate your plan as you progress.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT WE PERSONALISE -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="row justify-content-center mb-4">
+        <div class="col-lg-8 text-center">
+          <h2 class="mb-3">What your plan looks at</h2>
+          <p class="text-muted mb-0">
+            Your diet plan reacts to the values in your profile and highlights any areas that may need attention.
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-3 col-6">
+          <div class="card h-100 shadow-sm border-0 text-center">
+            <div class="card-body">
+              <div class="mb-2 fs-3">🍽️</div>
+              <h6 class="fw-semibold mb-1">Calories</h6>
+              <p class="small text-muted mb-0">
+                High or low daily intake triggers tips for plate balance.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-6">
+          <div class="card h-100 shadow-sm border-0 text-center">
+            <div class="card-body">
+              <div class="mb-2 fs-3">🩸</div>
+              <h6 class="fw-semibold mb-1">Blood sugar</h6>
+              <p class="small text-muted mb-0">
+                High levels show low-sugar food ideas and carb guidance.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-6">
+          <div class="card h-100 shadow-sm border-0 text-center">
+            <div class="card-body">
+              <div class="mb-2 fs-3">💓</div>
+              <h6 class="fw-semibold mb-1">Blood pressure</h6>
+              <p class="small text-muted mb-0">
+                High readings trigger tips for low-salt meals and heart health.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-3 col-6">
+          <div class="card h-100 shadow-sm border-0 text-center">
+            <div class="card-body">
+              <div class="mb-2 fs-3">😴🚶</div>
+              <h6 class="fw-semibold mb-1">Sleep & activity</h6>
+              <p class="small text-muted mb-0">
+                Low sleep or exercise shows gentle ideas to improve your routine.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-dark text-light py-3 mt-4">
+  <div class="container text-center">
+    <small>
+      &copy; <span id="year"></span> Personalized Diet Platform. All rights reserved.
+      · <a href="#" class="text-decoration-none text-info">Privacy Policy</a>
+      · <a href="#" class="text-decoration-none text-info">Contact</a>
+    </small>
+  </div>
+</footer>
+
+<script>
+  // Simple current year in footer (optional)
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>

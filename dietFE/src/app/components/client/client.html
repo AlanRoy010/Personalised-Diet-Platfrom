@@ -1,0 +1,199 @@
+<div class="container profile-container" style="margin-top: 70px; max-width: 1100px;">
+
+  <!-- LOADING STATE -->
+  <div *ngIf="loading" class="alert alert-info my-4">
+    Loading client information...
+  </div>
+
+  <!-- NO CLIENT INFO -->
+  <div *ngIf="!loading && !hasClient" class="text-center mt-5">
+    <h2 class="mb-2">No client information found</h2>
+    <p class="text-muted mb-4">
+      You haven't created your client profile yet. Complete your details to unlock your personalised diet plan.
+    </p>
+
+    <button class="btn btn-success rounded-pill px-4" [routerLink]="['/client/create']">
+      Create Client Profile
+    </button>
+  </div>
+
+  <!-- CLIENT INFO EXISTS -->
+  <ng-container *ngIf="!loading && hasClient">
+
+    @for (client of clients_list; track client._id) {
+
+      <!-- HERO / HEADER -->
+      <section class="mb-4">
+        <div class="card shadow-sm border-0 bg-light">
+          <div class="card-body d-flex flex-column flex-md-row align-items-md-center justify-content-between">
+
+            <div class="mb-3 mb-md-0">
+              <h1 class="mb-1 fw-bold text-success profile-name">
+                {{ client.Personal_info.name }}
+              </h1>
+              <p class="mb-0 text-muted profile-location">
+                {{ client.Personal_info.location.town }} · Client profile
+              </p>
+            </div>
+
+            <div class="profile-tags d-flex flex-wrap gap-2">
+              <span class="tag badge rounded-pill bg-success-subtle text-success border border-success-subtle">
+                Age: {{ client.Personal_info.Age }}
+              </span>
+              <span class="tag badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle">
+                Gender: {{ client.Personal_info.Gender }}
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- SHORT INTRO / ABOUT -->
+      <section class="mb-4">
+        <div class="card modern-card shadow-sm border-0">
+          <div class="card-body">
+            <h3 class="section-title mb-3 text-primary">
+              About {{ client.Personal_info.name }}
+            </h3>
+            <p class="mb-0 text-muted">
+              {{ loremIpssum }}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- GRID SECTIONS -->
+      <section class="mb-4">
+        <div class="row g-4">
+
+          <!-- PERSONAL INFO -->
+          <div class="col-md-6">
+            <div class="card modern-card hover-card h-100 shadow-sm border-0">
+              <div class="card-header card-header-modern bg-white border-0 border-bottom">
+                <h5 class="mb-0 text-success">Personal Info</h5>
+              </div>
+              <div class="card-body text-dark small">
+                <p><strong>Username:</strong> {{ client.Personal_info.username }}</p>
+                <p><strong>Email:</strong> {{ client.Personal_info.contact.email_id }}</p>
+                <p><strong>Phone:</strong> {{ client.Personal_info.contact.phone }}</p>
+                <p><strong>Town:</strong> {{ client.Personal_info.location.town }}</p>
+                <p><strong>Height:</strong> {{ client.Personal_info.body_metrics.height_cm }} cm</p>
+                <p><strong>Weight:</strong> {{ client.Personal_info.body_metrics.weight_kg }} kg</p>
+                <p *ngIf="client.Personal_info.body_metrics?.BMI">
+                  <strong>BMI:</strong> {{ client.Personal_info.body_metrics.BMI }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- HEALTH PROFILE -->
+          <div class="col-md-6">
+            <div class="card modern-card hover-card h-100 shadow-sm border-0">
+              <div class="card-header card-header-modern bg-white border-0 border-bottom">
+                <h5 class="mb-0 text-success">Health Profile</h5>
+              </div>
+              <div class="card-body text-dark small">
+                <ng-container *ngIf="(client.Health_Profile || client['Health Profile']) as hp; else noHealth">
+                  <p>
+                    <strong>Blood Pressure:</strong>
+                    {{
+                      (hp.Vitals?.Blood_Pressure || hp.Vitals?.['Bloop Pressure'])?.Systolic
+                        || 'N/A'
+                    }}/
+                    {{
+                      (hp.Vitals?.Blood_Pressure || hp.Vitals?.['Bloop Pressure'])?.Diastolic
+                        || 'N/A'
+                    }}
+                  </p>
+
+                  <p>
+                    <strong>BMI:</strong>
+                    {{ hp.Vitals?.BMI || client.Personal_info?.body_metrics?.BMI || 'N/A' }}
+                  </p>
+
+                  <p><strong>Blood Sugar:</strong> {{ hp.Labs?.Blood_Sugar_Level || 'N/A' }}</p>
+                  <p><strong>Cholesterol:</strong> {{ hp.Labs?.Cholesterol_Level || 'N/A' }}</p>
+
+                  <p><strong>Allergies:</strong> {{ hp.Health_risks?.Allergies || 'N/A' }}</p>
+                  <p><strong>Chronic Disease:</strong> {{ hp.Health_risks?.Chronic_Disease || 'N/A' }}</p>
+                  <p><strong>Genetic Risk Factor:</strong> {{ hp.Health_risks?.Genetic_Risk_Factor || 'N/A' }}</p>
+                </ng-container>
+
+                <ng-template #noHealth>
+                  <p class="text-muted mb-0">Health profile not provided yet.</p>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+
+          <!-- LIFESTYLE -->
+          <div class="col-md-6">
+            <div class="card modern-card hover-card h-100 shadow-sm border-0">
+              <div class="card-header card-header-modern bg-white border-0 border-bottom">
+                <h5 class="mb-0 text-success">Lifestyle</h5>
+              </div>
+              <div class="card-body text-dark small">
+                <ng-container *ngIf="(client.Life_Style || client['Life Style']) as ls; else noLifestyle">
+                  <p><strong>Daily Steps:</strong> {{ ls.Daily_Steps || ls['Daily Steps'] || 'N/A' }}</p>
+                  <p><strong>Sleep Hours:</strong> {{ ls.Sleep_Hours || ls['Sleep Hours'] || 'N/A' }}</p>
+                  <p><strong>Exercise Frequency:</strong> {{ ls.Exercise_Frequency || ls['Exercise Frequency'] || 'N/A' }}</p>
+                  <p><strong>Smoking:</strong> {{ ls.Habits?.Smoking || 'N/A' }}</p>
+                  <p><strong>Alcohol:</strong> {{ ls.Habits?.Alcohol_Consumption || 'N/A' }}</p>
+                </ng-container>
+
+                <ng-template #noLifestyle>
+                  <p class="text-muted mb-0">Lifestyle information not provided yet.</p>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+
+          <!-- DIET -->
+          <div class="col-md-6">
+            <div class="card modern-card hover-card h-100 shadow-sm border-0">
+              <div class="card-header card-header-modern bg-white border-0 border-bottom">
+                <h5 class="mb-0 text-success">Diet</h5>
+              </div>
+              <div class="card-body text-dark small">
+                <p><strong>Dietary Habits:</strong> {{ client.Diet?.Habits?.Dietary_Habits || 'N/A' }}</p>
+                <p><strong>Preferred Cuisine:</strong> {{ client.Diet?.Habits?.Preferred_Cuisine || 'N/A' }}</p>
+                <p><strong>Food Aversions:</strong> {{ client.Diet?.Habits?.Food_Aversions || 'N/A' }}</p>
+                <hr class="my-2">
+                <p><strong>Calories:</strong> {{ client.Diet?.Intakes?.Caloric_Intake || 'N/A' }} kcal</p>
+                <p><strong>Protein:</strong> {{ client.Diet?.Intakes?.Protein_Intake || 'N/A' }} g</p>
+                <p><strong>Carbs:</strong> {{ client.Diet?.Intakes?.Carbohydrate_Intake || 'N/A' }} g</p>
+                <p><strong>Fat:</strong> {{ client.Diet?.Intakes?.Fat_Intake || 'N/A' }} g</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- MAP -->
+          <div class="col-12">
+            <div class="card modern-card shadow-sm border-0">
+              <div class="card-header card-header-modern bg-white border-0 border-bottom d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 text-success">Location</h5>
+                <span class="badge bg-light text-muted">
+                  Map of town: {{ client.Personal_info.location.town }}
+                </span>
+              </div>
+              <div class="card-body">
+                <google-map height="400px" width="100%" [options]="map_options"></google-map>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ACTION BUTTON -->
+      <div class="text-end mb-5">
+        <button class="btn btn-success rounded-pill px-4" (click)="onEdit(client)">
+          Edit Client Profile
+        </button>
+      </div>
+
+    }
+
+  </ng-container>
+</div>
